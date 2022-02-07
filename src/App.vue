@@ -1,25 +1,15 @@
 <script setup lang="ts">
-import WordInput from './components/WordInput.vue'
-import Keyboard from './components/Keyboard.vue';
+import Game from './components/Game.vue'
 
-function clickChar(char: string) {
-  console.log(char)
-}
-function submitWord() {
-  console.log('submit')
-}
-function deleteChar() {
-  console.log('delete')
-}
+
 </script>
 
-<template>
+<template >
   <h1 class="header">
     <span class="green">krow</span>
     <u>y</u>towy
   </h1>
-  <WordInput />
-  <Keyboard @delete="deleteChar" @enter="submitWord" @clicked="clickChar"></Keyboard>
+  <Game />
 </template>
 
 <style>
@@ -28,7 +18,6 @@ function deleteChar() {
 #app {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   font-family: "Readex Pro", sans-serif;
   font-weight: normal;
 }
