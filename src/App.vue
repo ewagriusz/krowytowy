@@ -1,10 +1,15 @@
 <script setup lang="ts">
-
 import WordInput from './components/WordInput.vue'
 import Keyboard from './components/Keyboard.vue';
 
 function clickChar(char: string) {
   console.log(char)
+}
+function submitWord() {
+  console.log('submit')
+}
+function deleteChar() {
+  console.log('delete')
 }
 </script>
 
@@ -14,7 +19,7 @@ function clickChar(char: string) {
     <u>y</u>towy
   </h1>
   <WordInput />
-  <Keyboard @clicked="clickChar"></Keyboard>
+  <Keyboard @delete="deleteChar" @enter="submitWord" @clicked="clickChar"></Keyboard>
 </template>
 
 <style>
@@ -29,6 +34,9 @@ function clickChar(char: string) {
 }
 .header {
   text-align: center;
+}
+.header u {
+  color: rgba(213, 213, 213, 0.9);
 }
 header {
   line-height: 1.5;
