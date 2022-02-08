@@ -20,7 +20,7 @@
 ```bash
 # Clone repo
 git clone https://github.com/ewagriusz/krowytowy
-cd weather-app/
+cd krowytowy/
 yarn # or npm install
 ```
 
