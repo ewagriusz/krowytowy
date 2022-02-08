@@ -1,8 +1,8 @@
 <script setup lang='ts'>
 import { ref, computed, onMounted } from 'vue'
-
 import Keyboard from './Keyboard.vue';
 import AnswersTable from './AnswersTable.vue';
+import WordsStore from '@/stores/words';
 
 const answers = ref([[], [], [], [], [], []] as string[][])
 const step = ref(0)
@@ -24,7 +24,7 @@ onMounted(() => {
         else if (key === 'enter')
             submitWord()
         else if (key.length === 1 && /[a-ząśężźńół]/.test(key))
-            addChar(key)
+            addChar(key.toUpperCase())
 
     })
 })
@@ -41,5 +41,5 @@ function deleteChar() {
 <template>
     <AnswersTable :answers="answers" :step="step" />
     <br />
-    <Keyboard @delete="deleteChar" @enter="submitWord" @clicked="addChar"></Keyboard>
+    <Keyboard @delete="deleteChar" @enter="submitWord" @clicked="addChar" />
 </template>
