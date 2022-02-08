@@ -1,48 +1,48 @@
-# vue3-eslint-stylelint-demo
+<div align="center">
+  <h1>krowytowy</h1>
 
-**This repo intentionally contains linting errors in src/components/HelloWorld.vue so you know everything is working. You won't be able to git commit because the Husky pre-commit linting action won't let you - unless you fix the errors yourself of course. Run `npm run lint` to see the errors**
+  <h5 align="center">
+    wordle clone for polish language
+  </h5>
+</div>
 
-Vue 3 with:
-* ESLint
-* eslint-plugin-vue (find common mistakes in .vue files & make ESLint recognize .vue files)
-* eslint-plugin-prettier (formatting rules)
-* stylelint (lint `<style>` block from .vue files)
-* husky (run linting before comitting and prevent the commit if its code contains linting errors)
+##### It was made using:
 
-To see all of the above in action install ESLint and Stylelint extensions (type `@recommended` in extension search menu in VS Code), then open src/components/HelloWorld.vue. That file intentionally contains linting errors that check if all of these linting plugins work. Stylelint needs a separate extension - it's not integrated with ESLint.
+- [Vite](https://vitejs.dev/) - front-end
+- [TypeScript](https://www.typescriptlang.org/)
 
----
+### Prerequisites to build
 
-This template should help get you started developing with Vue 3 in Vite.
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/lang/en/)
 
-## Recommended IDE Setup
+### Getting Started
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates.
-
-However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can run `Volar: Switch TS Plugin on/off` from VSCode command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```bash
+# Clone repo
+git clone https://github.com/ewagriusz/krowytowy
+cd weather-app/
+yarn # or npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Run front-end
 
-```sh
-npm run dev
+#### Development
+
+```bash
+yarn dev # or npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+#### Production
 
-```sh
-npm run build
+```bash
+yarn build # or npm run build
+yarn serve # or npm run serve
 ```
+
+### Contributing
+
+Just contribute!
+
+### License
+
+[This project is licensed under the MIT License.](https://choosealicense.com/licenses/mit/)

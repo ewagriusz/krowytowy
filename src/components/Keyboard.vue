@@ -1,30 +1,37 @@
 <script setup lang="ts">
 let alphabet = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm', 'ąśężźńół']
-    .map(a => a.toUpperCase())
+    .map(a => a.toUpperCase().split(''))
 
 const emit = defineEmits<{
     (e: 'clicked', key: string): void
     (e: 'enter'): void
     (e: 'delete'): void
 }>()
+
 </script>
 
 <template>
-    <div class="line" v-for="(line, lineNumber) of alphabet">
+    <div class="line" v-for="(line, lineNumber) in alphabet">
         <div class="enter">
             <!-- ↩ -->
             <button @click="emit('enter')" v-if="lineNumber === 3">ENTER</button>
         </div>
         <div class="char" v-for="char in line">
-            <button class="button-52" @click="emit('clicked', char)">{{ char }}</button>
+            <button @click="emit('clicked', char)">{{ char }}</button>
         </div>
         <div class="delete">
-            <button @click="emit('delete')" v-if="lineNumber === 3">⌫</button>
+            <button @click="emit('delete')" v-if="lineNumber === 3">DELETE</button>
         </div>
     </div>
 </template>
 
 <style scoped>
+.delete.delete button {
+    background-color: #8321a5;
+}
+.enter.enter button {
+    background-color: #427535;
+}
 .line {
     display: flex;
     flex-wrap: wrap;
