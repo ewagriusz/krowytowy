@@ -1,4 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
+import Toast, { PluginOptions, POSITION } from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
-createApp(App).mount("#app");
+createApp(App)
+    .use(Toast, { position: POSITION.TOP_LEFT })
+    .mount("#app");

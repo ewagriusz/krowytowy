@@ -3,6 +3,9 @@ import { ref, computed, onMounted } from 'vue'
 import Keyboard from './Keyboard.vue';
 import AnswersTable from './AnswersTable.vue';
 import WordsStore from '@/stores/words';
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 const answers = ref([[], [], [], [], [], []] as string[][])
 const step = ref(0)
@@ -30,8 +33,9 @@ onMounted(() => {
 })
 
 function submitWord() {
-    console.log('submit')
+    toast('submited')
 }
+
 function deleteChar() {
     if (currentAnswer.value.length > 0) {
         currentAnswer.value.pop()
