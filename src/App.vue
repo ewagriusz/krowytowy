@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import Game from './components/Game.vue'
-
-
+import Game from "./components/Game.vue";
 </script>
 
-<template >
+<template>
   <h1 class="header">
     <span class="green">krow</span>
     <u>y</u>towy

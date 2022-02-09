@@ -1,63 +1,112 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, toRefs } from "vue";
 
 const props = defineProps<{
-    word: string[]
-    active: boolean
-}>()
+  answer: string;
+  word: string[];
+  step: number;
+  rowNumber: number;
+}>();
+const { word, step, rowNumber, answer } = toRefs(props);
+const active = computed(() => rowNumber.value === step.value);
+const filled = computed(() => rowNumber.value < step.value);
+const colors = computed(() => {
+  if (!filled.value) return ["", "", "", "", "", ""];
 
+  let letters = [...answer.value];
+  let result = [];
+  for (const [i, char] of word.value.entries()) {
+    if (letters[i] === char) {
+      result[i] = "correct";
+      letters[i] = "taken";
+    }
+  }
+  for (const [i, char] of word.value.entries()) {
+    if (letters[i] == "taken") continue;
+    let indexInAnswer = letters.indexOf(char);
+    if (indexInAnswer === -1) {
+      result[i] = "incorrect";
+      continue;
+    }
+    result[i] = "wrongPlace";
+    letters[indexInAnswer] = "taken";
+  }
+  return result;
+});
 </script>
 
-
 <template>
-    <div class="wordInput">
-        <div
-            :class="{
-                active: props.word[i - 1] && props.active,
-                disabled: !props.active
-            }"
-            v-for="i in 5"
-            class="charCell"
-        >{{ props.word[i - 1] }}</div>
+  <div class="wordInput">
+    <div
+      v-for="i in 5"
+      :key="i"
+      :class="{
+        active: props.word[i - 1] && active && !filled,
+        filled: filled,
+        disabled: !active && !filled,
+        correct: colors[i - 1] === 'correct',
+        incorrect: colors[i - 1] === 'incorrect',
+        wrongPlace: colors[i - 1] === 'wrongPlace',
+      }"
+      class="charCell"
+    >
+      {{ props.word[i - 1] }}
     </div>
+  </div>
 </template>
 
 <style scoped>
+.filled.filled {
+  border: 0;
+  background-color: var(--chars-c-standard-light);
+}
 .disabled.disabled {
-    background: repeating-linear-gradient(
-        -40deg,
-        rgba(34, 34, 34, 0.699),
-        rgba(34, 34, 34, 0.699) 6px,
-        rgba(51, 51, 51, 0.726) 6px,
-        rgba(51, 51, 51, 0.726) 14px
-    );
+  background: repeating-linear-gradient(
+    -40deg,
+    rgba(34, 34, 34, 0.599),
+    rgba(34, 34, 34, 0.599) 6px,
+    rgba(51, 51, 51, 0.626) 6px,
+    rgba(51, 51, 51, 0.626) 14px
+  );
 }
 .active.active {
-    border-color: var(--chars-c-white);
+  border-color: var(--chars-c-white);
 }
 .wordInput {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .charCell {
-    /* box-shadow: 3px 3px 2px rgba(245, 243, 243, 0.026); */
-    border: 2px var(--chars-c-standard-light) solid;
-    font-family: "Readex Pro";
-    text-align: center;
-    font-size: 1.6rem;
-    text-transform: uppercase;
-    /* width: 2rem; */
-    width: 3.4rem;
-    height: 3.4rem;
-    margin: 2.5px;
-    color: white;
-    /* background-color: rgb(115, 119, 118); */
-    background-color: var(--chars-c-standard);
-    cursor: pointer;
-    transition: 0.12s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  /* box-shadow: 3px 3px 2px rgba(245, 243, 243, 0.026); */
+  border: 2px var(--chars-c-standard-light) solid;
+  font-family: "Readex Pro", sans-serif;
+  text-align: center;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  /* width: 2rem; */
+  width: 3.4rem;
+  height: 3.4rem;
+  margin: 2.5px;
+  color: white;
+  /* background-color: rgb(115, 119, 118); */
+  background-color: var(--chars-c-standard);
+  cursor: pointer;
+  transition: 0.12s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+:is(.correct, .incorrect, .wrongPlace) {
+  border: 0;
+}
+.correct.correct {
+  background-color: var(--chars-c-green);
+}
+.wrongPlace.wrongPlace {
+  background-color: var(--chars-c-yellow);
+}
+.incorrect.incorrect {
+  background-color: var(--chars-c-standard-light);
 }
 </style>
