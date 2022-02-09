@@ -5,7 +5,7 @@ import AnswersTable from "./AnswersTable.vue";
 import WordsStore from "@/stores/words";
 import { useToast } from "vue-toastification";
 
-const WORD_TO_GUESS = "HUMOR";
+const WORD_TO_GUESS = WordsStore.randomWord();
 
 const toast = useToast();
 
@@ -41,16 +41,18 @@ function addChar(char: string) {
   }
 }
 function submitWord() {
-  console.log("subbmited");
+  console.log("subbmited, correct:", WORD_TO_GUESS);
   let stringWord = currentAnswer.value.join("");
+
+  if (stringWord === WORD_TO_GUESS) return;
   if (stringWord.length !== 5) return;
+
   let isAllowed = WordsStore.isWord(stringWord);
 
-  //! for dev purposes
-  // if (!isAllowed) {
-  //     toast.error(`${stringWord} nie jest słowem`)
-  //     return
-  // }
+  if (!isAllowed) {
+    toast.error(`${stringWord} nie jest słowem`);
+    return;
+  }
   step.value++;
 }
 
