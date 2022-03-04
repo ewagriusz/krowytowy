@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, toRefs } from "vue";
-
+import { colorWord } from "@/colors";
+import { Colors } from "@/colors";
 const props = defineProps<{
   answer: string;
   word: string[];
@@ -11,27 +12,8 @@ const { word, step, rowNumber, answer } = toRefs(props);
 const active = computed(() => rowNumber.value === step.value);
 const filled = computed(() => rowNumber.value < step.value);
 const colors = computed(() => {
-  if (!filled.value) return ["", "", "", "", "", ""];
-
-  let letters = [...answer.value];
-  let result = [];
-  for (const [i, char] of word.value.entries()) {
-    if (letters[i] === char) {
-      result[i] = "correct";
-      letters[i] = "taken";
-    }
-  }
-  for (const [i, char] of word.value.entries()) {
-    if (letters[i] == "taken") continue;
-    let indexInAnswer = letters.indexOf(char);
-    if (indexInAnswer === -1) {
-      result[i] = "incorrect";
-      continue;
-    }
-    result[i] = "wrongPlace";
-    letters[indexInAnswer] = "taken";
-  }
-  return result;
+  if (!filled.value) return ["", "", "", "", ""];
+  return colorWord(word.value, answer.value);
 });
 </script>
 
@@ -44,9 +26,9 @@ const colors = computed(() => {
         active: props.word[i - 1] && active && !filled,
         filled: filled,
         disabled: !active && !filled,
-        correct: colors[i - 1] === 'correct',
-        incorrect: colors[i - 1] === 'incorrect',
-        wrongPlace: colors[i - 1] === 'wrongPlace',
+        correct: colors[i - 1] === Colors.correct,
+        incorrect: colors[i - 1] === Colors.incorrect,
+        wrongPlace: colors[i - 1] === Colors.wrongPlace,
       }"
       class="charCell"
     >
