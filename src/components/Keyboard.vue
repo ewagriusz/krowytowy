@@ -12,15 +12,17 @@ const emit = defineEmits<{
 
 <template>
   <div v-for="(line, lineNumber) in alphabet" :key="lineNumber" class="line">
-    <div class="enter">
-      <!-- ↩ -->
-      <button v-if="lineNumber === 3" @click="emit('enter')">ENTER</button>
+    <div class="delete">
+      <button v-if="lineNumber === 3" @click="emit('delete')">DELETE</button>
     </div>
+
     <div v-for="char in line" :key="char" class="char">
       <button @click="emit('clicked', char)">{{ char }}</button>
     </div>
-    <div class="delete">
-      <button v-if="lineNumber === 3" @click="emit('delete')">DELETE</button>
+
+    <div class="enter">
+      <!-- ↩ -->
+      <button v-if="lineNumber === 3" @click="emit('enter')">ENTER</button>
     </div>
   </div>
 </template>
