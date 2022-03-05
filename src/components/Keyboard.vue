@@ -1,8 +1,21 @@
 <script setup lang="ts">
-let alphabet = ["qwertyuiop", "asdfghjkl", "zxcvbnm", "ąśężźńół"].map((a) =>
+import { computed } from "vue";
+let alphabet = ["qwertyuiop", "asdfghjkl", "zxcvbnm", "ąćśężźńół"].map((a) =>
   a.toUpperCase().split("")
 );
-
+const props = defineProps<{
+  step: number;
+  answers: string[][];
+  correctAnswer: string;
+}>();
+const usedLetters = computed(() => {
+  return new Set(
+    props.answers
+      .slice(0, props.step)
+      .map((a) => a.join(""))
+      .join("")
+  );
+});
 const emit = defineEmits<{
   (e: "clicked", key: string): void;
   (e: "enter"): void;
@@ -17,7 +30,18 @@ const emit = defineEmits<{
     </div>
 
     <div v-for="char in line" :key="char" class="char">
-      <button @click="emit('clicked', char)">{{ char }}</button>
+      <button
+        :class="{
+          orange: usedLetters.has(char) && correctAnswer.includes(char),
+          green: answers.some((l) =>
+            l.some((c, ind) => c === char && correctAnswer[ind] === char)
+          ),
+          wrong: usedLetters.has(char) && !correctAnswer.includes(char),
+        }"
+        @click="emit('clicked', char)"
+      >
+        {{ char }}
+      </button>
     </div>
 
     <div class="enter">
@@ -28,6 +52,15 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
+.orange {
+  background-color: var(--chars-c-yellow);
+}
+.green {
+  background-color: var(--chars-c-green);
+}
+.wrong {
+  background-color: var(--chars-c-standard-light);
+}
 .line {
   display: flex;
   flex-wrap: wrap;
@@ -35,7 +68,7 @@ const emit = defineEmits<{
   margin-bottom: 0.3rem;
 }
 
-.line button {
+button {
   box-shadow: 6px 6px 2px rgba(212, 212, 212, 0.063);
   border: 0;
   border-radius: 0.5rem;

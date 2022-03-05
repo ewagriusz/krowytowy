@@ -43,12 +43,12 @@ function addChar(char: string) {
 function submitWord() {
   console.log("subbmited, correct:", WORD_TO_GUESS);
   let stringWord = currentAnswer.value.join("");
+  if (stringWord.length !== 5) return;
 
   if (stringWord === WORD_TO_GUESS) {
     toast("gratulacje! wygrales");
     return;
   }
-  if (stringWord.length !== 5) return;
 
   let isAllowed = WordsStore.isWord(stringWord);
 
@@ -56,6 +56,13 @@ function submitWord() {
     toast.error(`${stringWord} nie jest słowem`);
     return;
   }
+  if (step.value > 4) {
+    if (step.value === 5) toast.warning("przegrales, ale masz dodatkowe zycie");
+    answers.value.shift();
+    answers.value.push([]);
+    return;
+  }
+
   step.value++;
 }
 
@@ -68,5 +75,12 @@ function deleteChar() {
 <template>
   <AnswersTable :word="WORD_TO_GUESS" :answers="answers" :step="step" />
   <br />
-  <Keyboard @delete="deleteChar" @enter="submitWord" @clicked="addChar" />
+  <Keyboard
+    :step="step"
+    :answers="answers"
+    :correct-answer="WORD_TO_GUESS"
+    @delete="deleteChar"
+    @enter="submitWord"
+    @clicked="addChar"
+  />
 </template>
